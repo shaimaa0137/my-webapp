@@ -1,0 +1,26 @@
+name: CI Pipeline   # The name of this workflow
+
+on:                 # When should this run?
+  push:             # Run when code is pushed
+    branches: [ "main" ]
+  pull_request:     # Run when someone opens a pull request
+    branches: [ "main" ]
+
+jobs:               # Define jobs (each job = group of steps)
+  build:            # This job is called "build"
+    runs-on: ubuntu-latest   # Run on a Linux VM (GitHub provides it)
+    
+    steps:          # Steps inside the job
+      - name: Checkout code
+        uses: actions/checkout@v3   # Pulls your code from GitHub
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.9"     # Which Python version to use
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt  # Install Flask + pytest
+
+      - name: Run tests
+        run: pytest    # Run our test_app.py file
